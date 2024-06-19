@@ -25,7 +25,7 @@ export default function() {
         content:'',
         category:'',
         tags:[],
-        available:'',
+        available:false,
     }
 
 
@@ -78,6 +78,18 @@ export default function() {
                         {Object.keys(initialData).map((objKey,index)=>{
                             const value = initialData[objKey];
                             switch(typeof value){
+                                case'boolean':
+                                return (
+                                    <label key={`formElement${index}`} className='input-css'>
+                                    {objKey}
+                                    <input
+                                    name={objKey}
+                                    type="checkbox"
+                                    checked={formData.objKey}
+                                    onChange={e => handleFormField(objKey,e.target.checked)}
+                                    />
+                                    </label>
+                                )
                                 default:
                                     return(
                                         <input
