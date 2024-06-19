@@ -3,19 +3,54 @@ import { FaEdit, FaSave, FaTrash } from 'react-icons/fa';
 
 
 export default function() {
-    const [articles, setArticles] = useState([]);
-    const [articleName, setArticleName] = useState('');
+
+    const listCategory = [
+        'Technology',
+        'Health',
+        'Lifestyle',
+        'Education'
+    ]
+
+    const listTags=[
+        'AI',
+        'Machine Learning',
+        'Nutrition',
+        'Fitness',
+        'Mindfulness'
+    ]
+
+    const initialData = {
+        name: '',
+        img:'',
+        content:'',
+        category:'',
+        tags:[],
+        available:'',
+    }
+
+
+
+    const [posts, setPosts] = useState([]);
+    const [formData, setFormData] = useState(initialData);
     const [editIndex, setEditIndex] = useState(null);
     const [editArticle, setEditArticle] = useState('');
 
-    console.log(articleName, articles);
+    console.log(formData, posts);
 
-    const onSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        setArticles(array => ([articleName, ...array]));
-        setArticleName('');
+        setPosts(array => ([...array, formData ]));
+        setFormData(initialData);
       
+    }
+
+    const handleFormField = (objectKey,value)=>{
+
+        setFormData(currObject => ({
+            ...currObject, [objectKey]: value
+        }))
+
     }
 
     const removeArticle = (articleIndex) => {
@@ -39,22 +74,39 @@ export default function() {
         <>
             <div className="all-container">
                 <div className="container">
-                    <form onSubmit={onSubmit} className='form-container'>
+                    <form onSubmit={handleSubmit} className='form-container'>
+                        {Object.keys(initialData).map((objKey,index)=>{
+                            const value = initialData[objKey];
+                            switch(typeof value){
+                                default:
+                                    return(
+                                        <input
+                                        key={`formElement${index}`}
+                                        name={objKey}
+                                        type={typeof value === 'number' ? 'number':'text'}
+                                        placeholder={objKey}
+                                        className='input-css'
+                                        value={formData.objKey}
+                                        onChange={e => handleFormField(objKey,e.target.value)}
+                                    />
+                                    )
+                            }
+                        })}
                         <input
                             type="text"
                             className='input-css'
-                            value={articleName}
+                            value={formData.name}
                             placeholder='Scrivi un articolo'
-                            onChange={e => setArticleName(e.target.value)}
+                            onChange={e => handleFormField(name,e.target.value)}
                         />
-                        <button className='button-css' disabled={(articleName) === ''}>
+                        <button className='button-css' >
                             Aggiungi
                         </button>
                     </form>
-                    <div className='ul-container' style={{display: articles.length!==0? 'block' :'none' }}>
+                    <div className='ul-container' style={{display: posts.length!==0? 'block' :'none' }}>
                         <ul className='ul-css'>
-                            {articles.map((article, index) => (
-                                <li key={`article${index}`} className='li-css'>
+                            {posts.map((post, index) => (
+                                <li key={`post${index}`} className='li-css'>
                                     {editIndex === index ? (
                                         <input
                                             type="text"
@@ -63,7 +115,7 @@ export default function() {
                                             onChange={(e) => setEditArticle(e.target.value)}
                                         />
                                     ) : (
-                                        <h5 className='testo-articolo'>{article}</h5>
+                                        <h5 className='testo-articolo'>{post.name}</h5>
                                     )}
                                     <div className="container-icons">
                                         {editIndex === index ? (
