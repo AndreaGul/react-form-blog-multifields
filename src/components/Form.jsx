@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { FaEdit, FaSave, FaTrash } from 'react-icons/fa';
 
-
 export default function Form() {
     const listCategory = ['Technology', 'Health', 'Lifestyle', 'Education'];
-
     const listTags = ['AI', 'Machine Learning', 'Nutrition', 'Fitness', 'Mindfulness'];
-
     const initialData = {
         name: '',
         img: '',
@@ -130,10 +127,10 @@ export default function Form() {
             );
         } else if (objKey === 'img') {
             return (
-                <div key={`formElement${objKey}`} className="input-css">
+                <div key={`formElement${objKey}`} className="input-css container-input-img">
                     <label>
                         {objKey}
-                        <input type="file" onChange={handleFileChange} />
+                        <input className="input-img" type="file" onChange={handleFileChange} />
                     </label>
                     {formData.img && (
                         <div>
@@ -162,10 +159,11 @@ export default function Form() {
     };
 
     return (
-        <div className="all-container">
+        <>
+        
             <div className="form-section">
                 <form onSubmit={handleSubmit} className="form-container">
-                    <h2>Aggiungi un nuovo articolo</h2>
+                    <h2>Aggiungi un nuovo post</h2>
                     <div className="form-fields">
                         {Object.keys(initialData).map((objKey) =>
                             renderField(objKey, initialData[objKey])
@@ -175,7 +173,7 @@ export default function Form() {
                 </form>
             </div>
             <div className="posts-section">
-                <h2>Articoli</h2>
+                <h2>Posts</h2>
                 <div className="ul-container">
                     <ul className="ul-css">
                         {posts.map((post, index) => (
@@ -284,6 +282,7 @@ export default function Form() {
                                                 ) : key === 'img' ? (
                                                     <>
                                                         <input
+                                                            className='input-update input-img'
                                                             type="file"
                                                             onChange={(e) => {
                                                                 const file =
@@ -367,6 +366,7 @@ export default function Form() {
                     </ul>
                 </div>
             </div>
-        </div>
+        
+        </>
     );
 }
