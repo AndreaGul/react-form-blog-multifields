@@ -1,10 +1,41 @@
-import { useState } from 'react';
-import { FaEdit, FaSave, FaTrash } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
 import GestionePost from './GestionePost';
+
+const formTemplate = {
+    name: {
+        type:'text',
+        label:'Titolo'
+    },
+    img: {
+        type:'text',
+        label:'Url Immagine'
+    },
+    content: {
+        type:'textarea',
+        label:'Contenuto'
+    },
+    category: {
+        type:'select',
+        label:'Categoria'
+    }, 
+    tags: {
+        type: 'multi-checkbox',
+        label:'tag'
+    },
+    available:  {
+        type: 'checkbox',
+        label:'Pubblicato'
+    },
+
+
+}
 
 export default function Form() {
     const listCategory = ['Technology', 'Health', 'Lifestyle', 'Education'];
     const listTags = ['AI', 'Machine Learning', 'Nutrition', 'Fitness', 'Mindfulness'];
+
+
+
     const initialData = {
         name: '',
         img: '',
@@ -18,6 +49,12 @@ export default function Form() {
     const [formData, setFormData] = useState(initialData);
     const [editIndex, setEditIndex] = useState(null);
     const [editArticle, setEditArticle] = useState(initialData);
+
+    useEffect(()=>{
+        return ()=>{
+            alert('Stai modificando il valore available');
+        }
+    },[formData.available]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
